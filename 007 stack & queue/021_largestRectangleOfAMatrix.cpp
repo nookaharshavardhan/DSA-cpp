@@ -4,6 +4,7 @@
 #include <climits>
 using namespace std;
 
+
 vector<int> left_tall_rect(const vector<int>&arr){
     stack<int> st;
     vector<int> left(arr.size(),0);
@@ -36,27 +37,22 @@ int find_area_of_largest_rect(const vector<int>& arr){
 }
 
 
-int max_rect(const vector<int>& arr){
-    int n = arr.size();
-    stack<int> st;
+int max_rextangle(vector<vector<char>>& matrix){
+    vector<int> height(matrix[0].size(),0);
     int maxi = INT_MIN;
-    for(int i = 0; i <= n;i++){
-        while(!st.empty() && (arr[i] < arr[st.top()] || i == n )){
-            int height = arr[st.top()];
-            st.pop();
-            int psi;
-            if(st.empty())psi = -1;
-            else psi = st.top();
-            maxi = max(maxi,(height*(i - psi - 1)));
+    for(int i = 0; i < matrix.size();i++){
+        for(int j = 0; j < matrix[0].size();j++){
+            if(matrix[i][j] == '0')height[j] = 0;
+            else height[j]++;
         }
-        st.push(i);
+        maxi = max(maxi , find_area_of_largest_rect(height));
     }
     return maxi;
 }
 
 int main() {
-    vector<int> arr ={3,2,10,11,5,10,6,3};
-    int area_of_largest_rect = max_rect(arr);
-    cout<<area_of_largest_rect<<"\n";
+    vector<vector<char>> matrix = {{'1'}};
+    int area = max_rextangle(matrix);
+    cout<<area<<"\n";
     return 0;
 }
